@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -6,7 +6,19 @@ const userSchema = new Schema({
   fullName: { type: String, required: true },
   accountNumber: { type: String, required: true, unique: true, index: true },
   emailAddress: { type: String, unique: true, required: true },
-  registrationNumber: { type: String, required: true, unique: true, index: true }
+  registrationNumber: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true,
+  },
 });
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
+
+User.createIndexes({
+  accountNumber: 1,
+  registrationNumber: 1,
+});
+
+module.exports = User;
