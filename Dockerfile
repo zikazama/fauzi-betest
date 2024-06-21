@@ -1,20 +1,10 @@
-# Use an official Node.js image as the base
-FROM node:14
-
-# Set the working directory inside the container
+FROM node:lts-alpine
+ENV PORT=3000
 WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json to the container
-COPY package*.json ./
-
-# Install dependencies
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN npm install
-
-# Copy the rest of the application code
 COPY . .
-
-# Expose port 3000 (the port your app listens on)
 EXPOSE 3000
-
-# Start your Node.js app
-CMD ["npm", "start"]
+RUN chown -R node /usr/src/app
+USER node
+CMD ["npm", "run", "start"]
